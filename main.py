@@ -26,7 +26,6 @@
 
 
 
-
 if __name__ == '__main__':
 	# Set up default puzzle
 	puzzle = [[1,2,3],
@@ -73,3 +72,22 @@ if __name__ == '__main__':
 			print 'Invalid choice. Try again.'
 
 	# Prompt user to pick an algorithm to solve the puzzle
+	while not menu:
+		print 'Enter the choice of your algorithm'
+		print '1. Uniform Cost Search'
+		print '2. A* with the Misplaced Tile heuristic'
+		print '3. A* with the Manhattan distance heuristic'
+
+		choice = raw_input()
+
+		if choice == "1":
+			print 'uniform cost search method'
+			menu = True
+		elif choice == "2":
+			print 'misplaced tile heuristic method'
+			menu = True
+		elif choice == "3":
+			print 'manhattan distance heuristic method'
+			menu = True
+		else:
+			print 'Invalid choice. Try again.'
