@@ -1,22 +1,32 @@
+import Node
 
 
 
 
 
 
+def uniformCostSearch(problem):
+	# Set up data/storage needed for algorithm
+	# i.e create node object with correct data
+	print 'incomplete'
 
+	# Push the node to the priority queue
 
+	# Begin loop
 
+	# If queue length = 0, exit
 
+	# Make temp node = current node in front of queue
 
+	# pop node from queue
 
+	# check if temp node = solution
 
+	# if true, exit loop
 
+	# else, expand node (swap up,down,left,right)
 
-
-
-
-
+	# push the children nodes into the queue, and use heapify to auto sort
 
 
 
@@ -32,10 +42,15 @@ if __name__ == '__main__':
 			  [4,8,0],
 			  [7,6,5]]
 
+	# Set up final state
+	final_puzzle = [[1,2,3],
+					[4,5,6],
+					[7,8,0]]
+
 	# Intro message
 	print 'Welcome to 861171527\'s 8-puzzle starter.'
 
-	# Error handling variable
+	# Determines when the menu loops stop
 	menu = True
 
 	# Getting user input and setting up correct puzzle
@@ -81,7 +96,7 @@ if __name__ == '__main__':
 		choice = raw_input()
 
 		if choice == "1":
-			print 'uniform cost search method'
+			uniformCostSearch(puzzle)
 			menu = True
 		elif choice == "2":
 			print 'misplaced tile heuristic method'
