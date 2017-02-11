@@ -1,5 +1,6 @@
 from Node import Node
 from heapq import heapify, heappush, heappop
+import copy
 
 # Globally set, final puzzle state to be used in methods
 final_state = [[1,2,3],
@@ -63,24 +64,29 @@ def expand(currNode, nodes_expanded):
 			if currNode.puzzle_state[i][j] == 0:
 				blankRow = i 
 				blankCol = j
+				print i, j 
 
 
-	# top copies the puzzle, and then determines/swaps with top tile if possible
-	# check if blank can swap with top
+	# copies the puzzle, and then determines/swaps with tile if possible
+	# need deepcopy or it will be referenced
+	# ^Info found on: stackoverflow.com/questions/2612802/how-to-clone-or-copy-a-list
+
+	# TOP
 	if blankRow != 0:
-		top = currNode.puzzle_state
+		top = copy.deepcopy(currNode.puzzle_state)
 		# replace the 0 with the value above it
 		top[blankRow][blankCol] = top[blankRow - 1][blankCol]
 		# value above it now holds the value 0
 		top[blankRow - 1][blankCol] = 0
 		# create node object, append to the list
 		topNode = Node(0, depth, top)
+		print 'top: ' , top
 		List.append(topNode)
 		nodes_expanded += 1
 
-	# perform check/swap for the other operations
+	# BOT
 	if blankRow != 2:
-		bot = currNode.puzzle_state
+		bot = copy.deepcopy(currNode.puzzle_state)
 
 		bot[blankRow][blankCol] = bot[blankRow + 1][blankCol]
 
@@ -88,21 +94,25 @@ def expand(currNode, nodes_expanded):
 
 		botNode = Node(0, depth, bot)
 		List.append(botNode)
+		print 'bot: ' , bot
 		nodes_expanded += 1
 
+	# LEFT
 	if blankCol != 0:
-		left = currNode.puzzle_state
+		left = copy.deepcopy(currNode.puzzle_state)
 
-		left[blankRow][blankCol] = bot[blankRow][blankCol - 1]
+		left[blankRow][blankCol] = left[blankRow][blankCol - 1]
 
 		left[blankRow][blankCol - 1] = 0
 
 		leftNode = Node(0, depth, left)
 		List.append(leftNode)
+		print 'left: ' , left
 		nodes_expanded += 1
 
+	# RIGHT
 	if blankCol != 2:
-		right = currNode.puzzle_state
+		right = copy.deepcopy(currNode.puzzle_state)
 
 		right[blankRow][blankCol] = right[blankRow][blankCol + 1]
 
@@ -110,6 +120,7 @@ def expand(currNode, nodes_expanded):
 
 		rightNode = Node(0, depth, right)
 		List.append(rightNode)
+		print 'right: ' , right
 		nodes_expanded += 1
 
 
@@ -156,6 +167,7 @@ def searchAlgorithm(problem, choice):
 	while not goal:
 
 	# Make temp node = current node in front of queue & pop
+		heapify(pq)
 		temp_node = heappop(pq)
 		print temp_node.puzzle_state
 
@@ -164,19 +176,31 @@ def searchAlgorithm(problem, choice):
 			goal = True
 			print 'Goal!'
 			print temp_node.puzzle_state
-			print 'To solve this problem the search algorithm expanded a total of ' + nodes_expanded + 'nodes.'
-			print 'The maximum number of nodes in the queue at any one time was ' + max_queue_nodes + '.'
-			print 'The depth of the goal node was ' + temp_node.depth + '.'
+			print 'To solve this problem the search algorithm expanded a total of ' , nodes_expanded , 'nodes.'
+			print 'The maximum number of nodes in the queue at any one time was ' , max_queue_nodes , '.'
+			print 'The depth of the goal node was ' , temp_node.depth , '.'
 
-	# else, expand node (swap up,down,left,right) || expand method returns priority queue and nodes_expanded
+	# else, expand node (swap up,down,left,right) || expand method returns list of nodes and nodes_expanded
 	# during expansion, update nodes_expanded --> expand(temp_node, nodes_expanded)
-	# (update depth in object during expansion)
-		tempList, nodes_expanded = expand(temp_node, nodes_expanded)
+		else:
+			tempList, nodes_expanded = expand(temp_node, nodes_expanded)
 
-	# push the children nodes into the queue, and use heapify to sort by priority
+
+	# push the children nodes into the queue, and use heappush/heapify to sort by priority
 	# also update the heuristics to correct one
+			for x in range(len(tempList)):
+				if choice == 1:
+					tempList[x].heuristic = 0
+				if choice == 2:
+					tempList[x].heuristic = misplaced(tempList[x].puzzle_state)
+				if choice == 3:
+					tempList[x].heuristic = manhattan(tempList[x].puzzle_state)
 
+				heappush(pq, tempList[x])
 	# update max_queue_nodes
+			if max_queue_nodes < len(pq):
+				max_queue_nodes = len(pq)
+
 
 
 
