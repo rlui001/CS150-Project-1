@@ -1,15 +1,24 @@
-import Node
+from Node import Node
+from heapq import heapify, heappush, heappop
 
 
 
 
 
-
-def uniformCostSearch(problem):
+def searchAlgorithm(problem, choice):
 	# Set up data/storage needed for algorithm
-	# i.e create node object with correct data
-	print 'incomplete'
+	# i.e create node object with correct heuristics, depth and heapq
+	# IMPORTANT: depth = cost for this puzzle solution --> g(n) = depth level
+	if choice == 1:
+		init_node = Node(0, 0, problem)
 
+	if choice == 2:
+		# Get heuristic for misplaced tile
+		init_node = Node(0,0, problem)
+
+	if choice == 3:
+		# Get heuristic for manhattan distance
+		init_node = Node(0, 0, problem)
 	# Push the node to the priority queue
 
 	# Begin loop
@@ -43,9 +52,9 @@ if __name__ == '__main__':
 			  [7,6,5]]
 
 	# Set up final state
-	final_puzzle = [[1,2,3],
-					[4,5,6],
-					[7,8,0]]
+	final_state = [[1,2,3],
+				   [4,5,6],
+				   [7,8,0]]
 
 	# Intro message
 	print 'Welcome to 861171527\'s 8-puzzle starter.'
@@ -96,12 +105,15 @@ if __name__ == '__main__':
 		choice = raw_input()
 
 		if choice == "1":
-			uniformCostSearch(puzzle)
+			searchAlgorithm(puzzle, 1)
+			print 'UCS method'
 			menu = True
 		elif choice == "2":
+			searchAlgorithm(puzzle, 2)
 			print 'misplaced tile heuristic method'
 			menu = True
 		elif choice == "3":
+			searchAlgorithm(puzzle, 3)
 			print 'manhattan distance heuristic method'
 			menu = True
 		else:
