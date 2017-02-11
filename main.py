@@ -1,11 +1,36 @@
 from Node import Node
 from heapq import heapify, heappush, heappop
 
+# Globally set, final puzzle state to be used in methods
+final_state = [[1,2,3],
+			   [4,5,6],
+			   [7,8,0]]
+
+def misplaced(problem):
+	""" 
+	Counts total misplaced tiles in the puzzle, 
+	returns as the heuristic value
+	"""
+	heuristic = 0
+	for i in range(3):
+		for j in range(3):
+			if problem[i][j] != 0:
+				if problem[i][j] != final_state[i][j]:
+					heuristic += 1
+
+	return heuristic
+
 
 
 
 
 def searchAlgorithm(problem, choice):
+	"""
+	Uniform Cost Search, misplaced tile search, and manhattan distance
+	search are all contained in this method. 
+	choice determines the search method used, while problem is the
+	initial puzzle state that needs to be solved
+	"""
 	# Set up data/storage needed for algorithm
 	# i.e create node object with correct heuristics, depth and heapq
 	# IMPORTANT: depth = cost for this puzzle solution --> g(n) = depth level
@@ -14,6 +39,7 @@ def searchAlgorithm(problem, choice):
 
 	if choice == 2:
 		# Get heuristic for misplaced tile
+
 		init_node = Node(0,0, problem)
 
 	if choice == 3:
@@ -50,11 +76,6 @@ if __name__ == '__main__':
 	puzzle = [[1,2,3],
 			  [4,8,0],
 			  [7,6,5]]
-
-	# Set up final state
-	final_state = [[1,2,3],
-				   [4,5,6],
-				   [7,8,0]]
 
 	# Intro message
 	print 'Welcome to 861171527\'s 8-puzzle starter.'

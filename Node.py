@@ -12,7 +12,7 @@ class Node:
 		self.puzzle_state =  puzzle
 		self.cost = heuristic + depth
 
-	# Allows heapify to compare the total cost of two nodes
+	# Allows heapify/heappush to compare the total cost of two nodes
 	def __cmp__(self, other):
 		return cmp(self.cost, other.cost)
 		
