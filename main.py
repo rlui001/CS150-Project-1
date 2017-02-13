@@ -182,7 +182,7 @@ def searchAlgorithm(problem, choice):
 	# Make temp node = current node in front of queue & pop
 		heapify(pq)
 		temp_node = heappop(pq)
-		# printBest(temp_node)
+		printBest(temp_node)
 		# print "cost of node: ", temp_node.cost
 
 	# check if temp node = solution, if it is -> print and exit loop
