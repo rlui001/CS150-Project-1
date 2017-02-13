@@ -182,7 +182,8 @@ def searchAlgorithm(problem, choice):
 	# Make temp node = current node in front of queue & pop
 		heapify(pq)
 		temp_node = heappop(pq)
-		printBest(temp_node)
+		# printBest(temp_node)
+		# print "cost of node: ", temp_node.cost
 
 	# check if temp node = solution, if it is -> print and exit loop
 		if temp_node.puzzle_state == final_state:
@@ -201,13 +202,16 @@ def searchAlgorithm(problem, choice):
 
 	# push the children nodes into the queue, and use heappush/heapify to sort by priority
 	# also update the heuristics to correct one
+	# cost must be updated as well
 			for x in range(len(tempList)):
 				if choice == 1:
 					tempList[x].heuristic = 0
 				if choice == 2:
 					tempList[x].heuristic = misplaced(tempList[x].puzzle_state)
+					tempList[x].cost = tempList[x].heuristic + tempList[x].depth
 				if choice == 3:
 					tempList[x].heuristic = manhattan(tempList[x].puzzle_state)
+					tempList[x].cost = tempList[x].heuristic + tempList[x].depth
 
 				heappush(pq, tempList[x])
 	# update max_queue_nodes
