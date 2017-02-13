@@ -64,7 +64,6 @@ def expand(currNode, nodes_expanded):
 			if currNode.puzzle_state[i][j] == 0:
 				blankRow = i 
 				blankCol = j
-				print i, j 
 
 
 	# copies the puzzle, and then determines/swaps with tile if possible
@@ -80,7 +79,6 @@ def expand(currNode, nodes_expanded):
 		top[blankRow - 1][blankCol] = 0
 		# create node object, append to the list
 		topNode = Node(0, depth, top)
-		print 'top: ' , top
 		List.append(topNode)
 		nodes_expanded += 1
 
@@ -94,7 +92,6 @@ def expand(currNode, nodes_expanded):
 
 		botNode = Node(0, depth, bot)
 		List.append(botNode)
-		print 'bot: ' , bot
 		nodes_expanded += 1
 
 	# LEFT
@@ -107,7 +104,6 @@ def expand(currNode, nodes_expanded):
 
 		leftNode = Node(0, depth, left)
 		List.append(leftNode)
-		print 'left: ' , left
 		nodes_expanded += 1
 
 	# RIGHT
@@ -120,14 +116,29 @@ def expand(currNode, nodes_expanded):
 
 		rightNode = Node(0, depth, right)
 		List.append(rightNode)
-		print 'right: ' , right
 		nodes_expanded += 1
 
 
 
 	return List, nodes_expanded
 
+def printPuzzle(puzzle):
+	"""
+	This method prints the puzzle state in the correct format.
+	"""
+	print ''
+	print puzzle.puzzle_state[0][0], puzzle.puzzle_state[0][1], puzzle.puzzle_state[0][2]
+	print puzzle.puzzle_state[1][0], puzzle.puzzle_state[1][1], puzzle.puzzle_state[1][2]
+	print puzzle.puzzle_state[2][0], puzzle.puzzle_state[2][1], puzzle.puzzle_state[2][2]
+	print ''
 
+def printBest(puzzle):
+	"""
+	This method 
+	"""
+	print 'The best state to expand with a g(n) = ', puzzle.depth, 'and h(n) = ', puzzle.heuristic, 'is...'
+	printPuzzle(puzzle)
+	print 'Expanding node...'
 
 
 def searchAlgorithm(problem, choice):
@@ -159,7 +170,9 @@ def searchAlgorithm(problem, choice):
 	# Push the node to the priority queue
 	pq = []
 	heappush(pq, init_node)
-	print len(pq)
+
+	print 'Expanding state: '
+	printPuzzle(init_node)
 
 	# Begin loop
 	goal = False
@@ -169,13 +182,13 @@ def searchAlgorithm(problem, choice):
 	# Make temp node = current node in front of queue & pop
 		heapify(pq)
 		temp_node = heappop(pq)
-		print temp_node.puzzle_state
+		printBest(temp_node)
 
 	# check if temp node = solution, if it is -> print and exit loop
 		if temp_node.puzzle_state == final_state:
 			goal = True
 			print 'Goal!'
-			print temp_node.puzzle_state
+			printPuzzle(temp_node)
 			print 'To solve this problem the search algorithm expanded a total of ' , nodes_expanded , 'nodes.'
 			print 'The maximum number of nodes in the queue at any one time was ' , max_queue_nodes , '.'
 			print 'The depth of the goal node was ' , temp_node.depth , '.'
