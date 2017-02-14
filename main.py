@@ -179,6 +179,11 @@ def searchAlgorithm(problem, choice):
 
 	while not goal:
 
+	# Check if frontier is empty
+		if len(pq) == 0:
+			print 'Frontier empty, failure to find goal state.'
+			break
+
 	# Make temp node = current node in front of queue & pop
 		heapify(pq)
 		temp_node = heappop(pq)
